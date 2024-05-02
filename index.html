@@ -5,6 +5,10 @@
     </head>
     <body>
         <h1>Welcome to CY-Date</h1>
-        <a href="login.php">Login or Register</a>        
+        <form action="login.php" method="POST" target="self">
+            User :<input type="text" name="username"><br>
+            Pass :<input type="Password" name="password"><br>
+            <input type=submit value="Login">
+        </form>
     </body>
 </html>
