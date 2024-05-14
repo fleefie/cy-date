@@ -19,7 +19,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
         header('Location: main.php');
         exit;
     } else {
-       header("Location: index.html");
+       header("Location: register.php");
     }
 }
 ?>
