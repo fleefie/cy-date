@@ -7,5 +7,5 @@ if (!isset($_SESSION['loggedin'])) {
     echo "Bonjour, ".$_SESSION['username'].". Vous êtes connecté.<br>";
 }
 
-session_destroy();
+//session_destroy();
 ?>
