@@ -27,5 +27,6 @@ echo "From now on, you are subbed to ".$target;
     </head>
     <body>   
     </body>
+
     </html>
 
