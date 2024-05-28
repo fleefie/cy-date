@@ -100,4 +100,38 @@ function saveSettings() {
     xhr.send(JSON.stringify(settings));
 }
 
-window.onload = generateForm;
+function getSavedSettings() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "script/getSettings.php", true);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                var savedSettings = JSON.parse(xhr.responseText);
+                applySavedSettings(savedSettings);
+            } else {
+                console.error("Failed to fetch saved settings: " + xhr.statusText);
+            }
+        }
+    };
+    xhr.send();
+}
+
+function applySavedSettings(savedSettings) {
+    for (var key in savedSettings) {
+        var setting = savedSettings[key];
+        if (settingsList[key]) {
+            if (settingsList[key].type === "select" || settingsList[key].type === "text") {
+                document.getElementById(key).value = setting;
+            } else if (settingsList[key].type === "checkbox") {
+                document.getElementById(key).checked = setting;
+            }
+        }
+    }
+}
+
+window.onload = function() {
+    generateForm();
+    getSavedSettings();
+};

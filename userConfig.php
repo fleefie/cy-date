@@ -11,9 +11,8 @@ if (!isset($_SESSION["username"])) {
     <script src="script/generateSettings.js"></script>
 </head>
 <body>
-    <p id="saveStatus">
+    <p id="saveStatus"></p>
     <?php
-    session_start(); 
     echo("<h1>Welcome, " . $_SESSION["username"] . " !</h1>"); 
     ?>
     <form id="settingsForm" onsubmit="event.preventDefault(); saveSettings();">
