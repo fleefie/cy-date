@@ -35,13 +35,6 @@ $userData = json_decode(file_get_contents($userFile), true);
 
 $settingsList = json_decode(file_get_contents("script/settingsList.json"), true);
 
-$colorPalette = ["#FF5733", "#33FF57", "#3357FF", "#F39C12", "#8E44AD", "#1ABC9C", "#E74C3C", "#3498DB", "#2ECC71", "#9B59B6", "#E67E22", "#2C3E50", "#D35400", "#27AE60", "#2980B9", "#C0392B"];
-
-// I wonder what the "getRandomColor($palette)" function does.
-// I bet that it prints an image of a cupcake.
-function getRandomColor($palette) {
-    return $palette[array_rand($palette)];
-}
 
 // This feels hacky and efficient at once.
 function checkFollow($username, $target) {
@@ -86,50 +79,30 @@ function checkBlock($username, $target) {
 <head>
     <meta charset="UTF-8">
     <title>View User</title>
-    <style>
-        table {
-            width: 50%;
-            border-collapse: collapse;
-        }
-        th, td {
-            border: 1px solid black;
-            padding: 10px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .tag {
-            display: inline-block;
-            padding: 5px;
-            margin: 2px;
-            border-radius: 5px;
-            color: #fff;
-        }
-        .nav li {
-            display: inline-block;
-        }
-    </style>
     <script src="script/follow.js"></script>
+    <link rel="stylesheet" href="assets/main.css">
 </head>
 <body>
-    <div class="nav">
-        <ul>
-            <li><a href="main.php">Home</a>
-            <li><a href="followList.php">Following</a>
-            <script src="script/follow.js"></script>
-            <li><a href="search.php">Search</a>
-            <li><a href="viewUser.php?<?php echo 'user='.$_SESSION['username'];?>">My Page</a>
-            <li><a href="userConfig.php">Settings</a>
-            <li><a href="logoff.php">Log Out</a> 
-        </ul>
-    </div>
+    <header>
+        <img src="assets/logo_H.png">
+        <nav class="navigation">
+            <div class="icondiv">
+            <a href="main.php"><img class="icon" src="assets/icons/home-outline.svg"></a>
+            <a href="search.php"><img class="icon" src="assets/icons/search-outline.svg"></a>
+            <a href="followList.php"><img class="icon" src="assets/icons/people-outline.svg"></a>
+            <a href="viewUser.php?<?php echo 'user='.$_SESSION['username'];?>"><img class="icon" src="assets/icons/person-outline.svg"></a>
+            <a href="userConfig.php"><img class="icon" src="assets/icons/cog-outline.svg"></a>
+            <button class="btnLogout" onclick="window.location.href='logoff.php';">Log out</button>
+            </div>
+        </nav>
+    </header>
+    <div class="normalDis">
     <h1><?php echo htmlspecialchars($user);?>'s page</h1>
 
-    <button id="follow" onclick="toggleState(this, <?php echo('\''.$user.'\'')?>)"><?php checkFollow($_SESSION["username"], $user)?></button>
-    <button id="block" onclick="toggleState(this, <?php echo('\''.$user.'\'')?>)"><?php checkBlock($_SESSION["username"], $user)?></button>
-    <a target=blank href=<?php echo("chat.php?user1=" . $_SESSION["username"] . '&user2=' . $user); ?>>Start A Chat</a>
-    <a target=blank href=<?php echo("chat.php?user1=" . $_SESSION["username"] . '&user2=Admin'); ?>>Report</a>
+    <button class="btn" id="follow" onclick="toggleState(this, <?php echo('\''.$user.'\'')?>)"><?php checkFollow($_SESSION["username"], $user)?></button>
+    <button class="btn" id="block" onclick="toggleState(this, <?php echo('\''.$user.'\'')?>)"><?php checkBlock($_SESSION["username"], $user)?></button>
+    <button class="btn" onclick='window.location.href=<?php echo("\"chat.php?user1=" . $_SESSION["username"] . "&user2=" . $user . "\""); ?>'>Start A Chat</button>
+    <button class="btn" onclick='window.location.href=<?php echo("\"chat.php?user1=" . $_SESSION["username"] . "&user2=Admin\""); ?>'>Report</button>
     <?php if ($_SESSION["username"] === "Admin") { ?>
         <a href=<?php echo("script/banUser.php?target=" . $user); ?>>[KILL 9]</a>
     <?php } ?>
@@ -139,10 +112,6 @@ function checkBlock($username, $target) {
         }
     </script>
     <table>
-        <tr>
-            <th>Setting</th>
-            <th>Value</th>
-        </tr>
         <?php
         foreach ($settingsList as $key => $setting) {
             if ($username === "Admin" ||
@@ -160,8 +129,7 @@ function checkBlock($username, $target) {
                     $tags = explode(",", $userData[$key]);
                     $value = "";
                     foreach ($tags as $tag) {
-                        $color = getRandomColor($colorPalette);
-                        $value .= "<div class='tag' style='background-color: $color;'>" . htmlspecialchars(trim($tag)) . "</div> ";
+                        $value = $value. "<div class='tag'>" . htmlspecialchars(trim($tag)) . "</div> ";
                     }
                 } else {
                     $value = $userData[$key];
@@ -181,5 +149,6 @@ function checkBlock($username, $target) {
             }
         ?>
     </ul>
+    </div>
 </body>
 </html>

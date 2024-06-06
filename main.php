@@ -14,35 +14,35 @@ if (!is_file("users/".$_SESSION['username']."/user.json")) {
 ?>
 <!DOCTYPE HTML>
 <head>
-    <style>
-        .nav li {
-            display: inline-block;
-        }
-    </style>
+<link rel="stylesheet" href="assets/main.css">
 </head>
 <body>
-    <div class="nav">
-        <ul>
-            <li><a href="search.php">Search</a>
-            <li><a href="followList.php">Followed</a>
-            <li><a href="viewUser.php?<?php echo 'user='.$_SESSION['username'];?>">My Page</a>
-            <li><a href="userConfig.php">Settings</a>
-            <li><a href="logoff.php">Log Out</a> 
-        </ul>
-    </div>
-    <h1><3Beats</h1>
-
+    <header>
+        <img src="assets/logo_H.png">
+        <nav class="navigation">
+            <div class="icondiv">
+            <a href="main.php"><img class="icon" src="assets/icons/home-outline.svg"></a>
+            <a href="search.php"><img class="icon" src="assets/icons/search-outline.svg"></a>
+            <a href="followList.php"><img class="icon" src="assets/icons/people-outline.svg"></a>
+            <a href="viewUser.php?<?php echo 'user='.$_SESSION['username'];?>"><img class="icon" src="assets/icons/person-outline.svg"></a>
+            <a href="userConfig.php"><img class="icon" src="assets/icons/cog-outline.svg"></a>
+            <button class="btnLogout" onclick="window.location.href='logoff.php';">Log out</button>
+            </div>
+        </nav>
+    </header>
     <form method="GET" action="search.php">
-        <input type="text" name="query" placeholder="Search for a tag or username">
-        <button type="submit">Find Your Mate</button>
+    <div class="recherche">
+        <input type="text" name="query" placeholder="Search for tags or users">
+    </div>
     </form>
-
-    <p> Our 25 latest users :
-    <br>
-    <?php
-        $lines = file("users/userlist", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        foreach ($lines as $user) {
-            echo("<a href='viewUser.php?user=".$user."'>".$user."</a><br>");
-        }
-    ?>
+    <div class="box">
+        <p> Our 15 latest users :
+        <br>
+        <?php
+            $lines = file("users/userlist", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+            foreach ($lines as $user) {
+                echo("<a href='viewUser.php?user=".$user."'>".$user."</a><br>");
+            }
+        ?>
+    </div>
 </body>

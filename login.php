@@ -59,7 +59,7 @@ if (isset($_SESSION["loggedin"])) {
                                     $usernames = file("users/userlist", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
                                 }
                                 array_push($usernames, $username);
-                                $usernames = array_slice($usernames, -25);
+                                $usernames = array_slice($usernames, -15);
                                 file_put_contents("users/userlist", implode("\n", $usernames));
                                 touch("users/".$username."/subs");
                                 touch("users/".$username."/blocks");
@@ -181,7 +181,5 @@ if (isset($_SESSION["loggedin"])) {
         </div>
 
     <script src="assets/login/script.js"></script>
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 </html>

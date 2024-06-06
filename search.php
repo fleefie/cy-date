@@ -61,28 +61,26 @@ $searchResults = searchUsers($query);
 <!DOCTYPE html>
 <head>
     <title>Search Results</title>
-    <style>
-        .nav li {
-            display: inline-block;
-        }
-    </style>
+    <link rel="stylesheet" href="assets/main.css">
 </head>
 <body>
-    <div class="nav">
-        <ul>
-            <li><a href="main.php">Home</a>
-            <li><a href="followList.php">Followed</a>
-            <li><a href="viewUser.php?<?php echo 'user='.$_SESSION['username'];?>">My Page</a>
-            <li><a href="userConfig.php">Settings</a>
-            <li><a href="logoff.php">Log Out</a> 
-        </ul>
-    </div>
-    <form method="GET" action="search.php">
-        <input type="text" name="query" placeholder="Search..." value="<?php echo htmlspecialchars($query); ?>">
-        <button type="submit">Search</button>
+    <header>
+        <img src="assets/logo_H.png">
+        <nav class="navigation">
+            <div class="icondiv">
+            <a href="main.php"><img class="icon" src="assets/icons/home-outline.svg"></a>
+            <a href="search.php"><img class="icon" src="assets/icons/search-outline.svg"></a>
+            <a href="followList.php"><img class="icon" src="assets/icons/people-outline.svg"></a>
+            <a href="viewUser.php?<?php echo 'user='.$_SESSION['username'];?>"><img class="icon" src="assets/icons/person-outline.svg"></a>
+            <a href="userConfig.php"><img class="icon" src="assets/icons/cog-outline.svg"></a>
+            <button class="btnLogout" onclick="window.location.href='logoff.php';">Log out</button>
+            </div>
+        </nav>
+    </header>
+    <form class="recherche" method="GET" action="search.php">
+        <input type="text" name="query" placeholder="Search for tags or users" value="<?php echo htmlspecialchars($query); ?>">
     </form>
-
-    <h1>Search Results</h1>
+    <div class="box">
     <ul>
         <?php
         if (!empty($searchResults)) {
@@ -99,5 +97,6 @@ $searchResults = searchUsers($query);
         }
         ?>
     </ul>
+    </div>
 </body>
 </html>

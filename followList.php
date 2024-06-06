@@ -42,36 +42,43 @@ if ($handle = opendir($chatsDir)) {
 <!DOCTYPE html>
 <head>
     <title><?php echo htmlspecialchars($username); ?>'s Follows and Blocks</title>
-    <style>
-        .nav li {
-            display: inline-block;
-        }
-    </style>
+    <link rel="stylesheet" href="assets/main.css">
 </head>
 <body>
-    <div class="nav">
+    <header>
+        <img src="assets/logo_H.png">
+        <nav class="navigation">
+            <div class="icondiv">
+            <a href="main.php"><img class="icon" src="assets/icons/home-outline.svg"></a>
+            <a href="search.php"><img class="icon" src="assets/icons/search-outline.svg"></a>
+            <a href="followList.php"><img class="icon" src="assets/icons/people-outline.svg"></a>
+            <a href="viewUser.php?<?php echo 'user='.$_SESSION['username'];?>"><img class="icon" src="assets/icons/person-outline.svg"></a>
+            <a href="userConfig.php"><img class="icon" src="assets/icons/cog-outline.svg"></a>
+            <button class="btnLogout" onclick="window.location.href='logoff.php';">Log out</button>
+            </div>
+        </nav>
+    </header>
+    <table class="box">
+    <tr>
+        <th>You are following</th>
+        <th>Open Chats</th>
+        <th>Blocked Users</th>
+    </tr>
+    <tr>
+    <td>
         <ul>
-            <li><a href="main.php">Home</a>
-            <li><a href="search.php">Search</a>
-            <li><a href="viewUser.php?<?php echo 'user='.$_SESSION['username'];?>">My Page</a>
-            <li><a href="userConfig.php">Settings</a>
-            <li><a href="logoff.php">Log Out</a> 
-        </ul>
-    </div>
-    <h1>You are followsing :</h1>
-    <ul>
         <?php
         if (!empty($follows)) {
             foreach ($follows as $sub) {
                 echo "<li><a href=viewUser.php?user=" . htmlspecialchars($sub) . ">" . htmlspecialchars($sub) . "</a></li>";
             }
         } else {
-            echo "<li>No one ! Go find people big guy !</li>";
+            echo "<li>No one</li>";
         }
         ?>
-    </ul>
-
-    <h1>Open Chats</h1>
+        </ul>
+    </td>
+    <td>
     <ul>
         <?php
         if (!empty($chats)) {
@@ -79,12 +86,12 @@ if ($handle = opendir($chatsDir)) {
                 echo "<li><a target=blank href=chat.php?user1=" . $_SESSION["username"] . "&user2=" . htmlspecialchars($chat) . ">" . htmlspecialchars($chat) . "</a></li>";
             }
         } else {
-            echo "<li>Wow, so very empty. Go make some noise !</li>";
+            echo "<li>None</li>";
         }
         ?>
     </ul>
-
-    <h1>Blocked Users</h1>
+    </td>
+    <td>
     <ul>
         <?php
         if (!empty($blocks)) {
@@ -92,9 +99,12 @@ if ($handle = opendir($chatsDir)) {
                 echo "<li><a href=viewUser.php?user=" . htmlspecialchars($block) . ">" . htmlspecialchars($block) . "</a></li>";
             }
         } else {
-            echo "<li>No one. Blocking may be useful to you, don't hesitate to do it !</li>";
+            echo "<li>No one</li>";
         }
         ?>
     </ul>
+    </td>
+    </tr>
+    </table>
 </body>
 </html>
