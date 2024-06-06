@@ -19,6 +19,18 @@ if (!file_exists($userFile)) {
     exit;
 }
 
+$viewFile = "users/$user/viewlist";
+if (!file_exists($viewFile)) {
+    touch($viewFile);
+}
+
+$viewList = file($viewFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+if (!in_array($username, $viewList)) {
+    $viewList[] = $username;
+    file_put_contents($viewFile, implode(PHP_EOL, $viewList));
+}
+
 $userData = json_decode(file_get_contents($userFile), true);
 
 $settingsList = json_decode(file_get_contents("script/settingsList.json"), true);
@@ -161,5 +173,13 @@ function checkBlock($username, $target) {
         }
         ?>
     </table>
+    <h1>Who saw my profile ?</h1>
+    <ul>
+        <?php
+            foreach ($viewList as $viewer) {
+                echo "<li><a href=viewUser.php?user=" . htmlspecialchars($viewer) . ">" . htmlspecialchars($viewer) . "</a></li>";
+            }
+        ?>
+    </ul>
 </body>
 </html>

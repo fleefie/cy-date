@@ -34,6 +34,7 @@ if (file_exists($userDir)) {
     unlink($userDir."/pass");
     unlink($userDir."/subs");
     unlink($userDir."/user.json");
+    unlink($userDir."/viewlist");
     if (rmdir($userDir)) {
         echo "<h1>SIGKILL has been sent.</h1>";
     } else {

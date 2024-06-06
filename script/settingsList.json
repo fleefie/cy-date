@@ -3,28 +3,33 @@
         "label": "Description",
         "type": "text",
         "cols": "80",
-        "rows": "10"
+        "rows": "10",
+        "hidden": "false"
     },
     "tags": {
         "label": "Tags",
         "type": "text",
         "cols": "30",
-        "rows": "30"
+        "rows": "30",
+        "hidden": "false"
     },
     "gender": {
         "label": "Gender",
         "type": "select",
-        "options": ["Male", "Female", "Not Specified"]
+        "options": ["Male", "Female", "Not Specified"],
+        "hidden": "false"
     },
     "age": {
         "label": "Age Range",
         "type": "select",
-        "options": ["18-22", "23-28", "28-38", "38-48", "48+"]
+        "options": ["18-22", "23-28", "28-38", "38-48", "48+"],
+        "hidden": "False"
     },
     "region": {
         "label": "World Region",
         "type": "select",
-        "options": ["Europe", "Asia", "Oceania", "Africa", "North America", "South America"]
+        "options": ["Europe", "Asia", "Oceania", "Africa", "North America", "South America"],
+        "hidden": "False"
     },
     "name": {
         "label": "Name",
