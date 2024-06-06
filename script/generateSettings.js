@@ -64,9 +64,21 @@ function loadSettings() {
         .then(response => response.json())
         .then(settingsList => {
             fetch("../users/"+document.getElementById('username').value+"/user.json")
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('User settings not found');
+                    }
+                    return response.json();
+                })
                 .then(userSettings => generateForm(settingsList, userSettings))
+                .catch(error => {
+                    console.error('Error loading user settings:', error);
+                    generateForm(settingsList, "");
+                });
         })
+        .catch(error => {
+            console.error('Error loading settings list:', error);
+        });
 }
 
 window.onload = loadSettings;

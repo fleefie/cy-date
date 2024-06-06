@@ -100,25 +100,27 @@ function checkBlock($username, $target) {
         </tr>
         <?php
         foreach ($settingsList as $key => $setting) {
-            echo "<tr>";
-            echo "<td>" . htmlspecialchars($setting["label"]) . "</td>";
-            
-            // Just some parsing
-            if ($setting["type"] === "checkbox") {
-                $value = $userData[$key] ? "Yes" : "No";
-            } elseif ($key === "tags") {
-                $tags = explode(",", $userData[$key]);
-                $value = "";
-                foreach ($tags as $tag) {
-                    $color = getRandomColor($colorPalette);
-                    $value .= "<div class='tag' style='background-color: $color;'>" . htmlspecialchars(trim($tag)) . "</div> ";
+            if ($setting["hidden"] !== "True") {
+                echo "<tr>";
+                echo "<td>" . htmlspecialchars($setting["label"]) . "</td>";
+                
+                // Just some parsing
+                if ($setting["type"] === "checkbox") {
+                    $value = $userData[$key] ? "Yes" : "No";
+                } elseif ($key === "tags") {
+                    $tags = explode(",", $userData[$key]);
+                    $value = "";
+                    foreach ($tags as $tag) {
+                        $color = getRandomColor($colorPalette);
+                        $value .= "<div class='tag' style='background-color: $color;'>" . htmlspecialchars(trim($tag)) . "</div> ";
+                    }
+                } else {
+                    $value = $userData[$key];
                 }
-            } else {
-                $value = $userData[$key];
+                
+                echo "<td>" . $value . "</td>";
+                echo "</tr>";
             }
-            
-            echo "<td>" . $value . "</td>";
-            echo "</tr>";
         }
         ?>
     </table>

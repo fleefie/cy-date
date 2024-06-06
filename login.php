@@ -35,25 +35,25 @@ if (isset($_SESSION["loggedin"])) {
                 $userPrefix = "users/" . $username;
                 // Login
                 if (isset($_POST["login"])) {
-                    if (is_dir("users/" . $username) && password_verify($password, file_get_contents($userPrefix . "/pass"))) {
+                    if (is_dir("users/" . $username) && password_verify($password, explode(":",file_get_contents($userPrefix . "/pass"))[0])) {
                         $_SESSION["loggedin"] = true;
                         $_SESSION["username"] = $username;
-                        header("Location: main.php");
+                        header("Location: index.php");
                         exit;
                     } else {
                         $badLogin = true;
                     }
                 }
                 // Register
-                if (isset($_POST["register"])) {
+                if (isset($_POST["register"]) && isset($_POST["email"])) {
                     if (!is_dir($userPrefix)) {
                         if ($_POST["password"] === $_POST["password_confirm"]) {
                             $hashedPass = password_hash($password, PASSWORD_DEFAULT);
                             mkdir($userPrefix);
-                            file_put_contents("users/" . $username . "/pass" , $hashedPass, FILE_APPEND);
+                            file_put_contents("users/" . $username . "/pass" , $hashedPass . ":" . $_POST["email"], FILE_APPEND);
                             $_SESSION["loggedin"] = true;
                             $_SESSION["username"] = $username;
-                            header("Location: main.php");
+                            header("Location: userConfig.php");
                             exit;
                         } else {
                             $passwordMismatch = true;
@@ -133,6 +133,11 @@ if (isset($_SESSION["loggedin"])) {
                         <span class="icon"><ion-icon name="person-outline"></ion-icon></span>
                         <input type="text" name="username" required>
                         <label>Username</label>
+                    </div>
+                    <div class="input-box">
+                        <span class="icon"><ion-icon name="mail-outline"></ion-icon></span>
+                        <input type="mail" name="email" required>
+                        <label>E-Mail</label>
                     </div>
                     <div class="input-box">
                         <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>

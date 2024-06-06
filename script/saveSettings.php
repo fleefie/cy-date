@@ -18,7 +18,8 @@ $validSettings = [
     "notifications" => [true, false],
     "fontSize" => ["small", "medium", "large"],
     "description" => "text",
-    "tags" => "text"
+    "tags" => "text",
+    "name" => "text"
 ];
 
 // This is JUST verification. Holy fuck.

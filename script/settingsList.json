@@ -24,5 +24,19 @@
         "type": "text",
         "cols": "30",
         "rows": "30"
+    },
+    "name": {
+        "label": "Name",
+        "type": "text",
+        "cols": "50",
+        "rows": "1",
+        "hidden": "True"
+    },
+    "email": {
+        "label": "Email",
+        "type": "text",
+        "cols": "50",
+        "rows": "1",
+        "hidden": "True"
     }
 }
