@@ -8,9 +8,8 @@ if (isset($_SESSION["loggedin"])) {
 }
 ?>
 
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>Login_Heartbeat</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="assets/login/style.css">

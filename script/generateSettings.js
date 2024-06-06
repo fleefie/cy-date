@@ -72,7 +72,7 @@ function loadSettings() {
                 })
                 .then(userSettings => generateForm(settingsList, userSettings))
                 .catch(error => {
-                    console.error('Error loading user settings:', error);
+                    console.error('Error loading user settings 23423:', error);
                     generateForm(settingsList, "");
                 });
         })

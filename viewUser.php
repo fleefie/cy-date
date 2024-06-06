@@ -56,9 +56,8 @@ function checkBlock($username, $target) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
     <title>View User</title>
     <style>
         table {
@@ -80,10 +79,21 @@ function checkBlock($username, $target) {
             border-radius: 5px;
             color: #fff;
         }
+        .nav li {
+            display: inline-block;
+        }
     </style>
     <script src="script/follow.js"></script>
 </head>
 <body>
+    <div class="nav">
+        <ul>
+            <li><a href="userConfig.php">Settings</a>
+            <li><a href="followList.php">Followed</a>
+            <li><a href="viewUser.php?<?php echo 'user='.$_SESSION['username'];?>">My Page</a>
+            <li><a href="logoff.php">Log Out</a> 
+        </ul>
+    </div>
     <h1><?php echo htmlspecialchars($user);?>'s page</h1>
 
     <button id="follow" onclick="toggleState(this, <?php echo('\''.$user.'\'')?>)"><?php checkFollow($_SESSION["username"], $user)?></button>

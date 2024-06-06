@@ -14,13 +14,13 @@ $input = file_get_contents('php://input');
 $settings = json_decode($input, true);
 
 $validSettings = [
-    "theme" => ["light", "dark"],
-    "notifications" => [true, false],
-    "fontSize" => ["small", "medium", "large"],
     "description" => "text",
+    "gender" => ["Male", "Female", "Not Specified"],
     "tags" => "text",
     "name" => "text",
     "email" => "text",
+    "age" => ["18-22", "23-28", "28-38", "38-48", "48+"],
+    "region" => ["Europe", "Asia", "Oceania", "Africa", "North America", "South America"],
 ];
 
 // This is JUST verification. Holy fuck.

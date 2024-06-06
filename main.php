@@ -14,15 +14,28 @@ if (!is_file("users/".$_SESSION['username']."/user.json")) {
 ?>
 <!DOCTYPE HTML>
 <head>
+    <style>
+        .nav li {
+            display: inline-block;
+        }
+    </style>
 </head>
 <body>
+    <div class="nav">
+        <ul>
+            <li><a href="userConfig.php">Settings</a>
+            <li><a href="followList.php">Followed</a>
+            <li><a href="viewUser.php?<?php echo 'user='.$_SESSION['username'];?>">My Page</a>
+            <li><a href="logoff.php">Log Out</a> 
+        </ul>
+    </div>
     <h1><3Beats</h1>
 
-    <form>
-        <p>Search for a tag or username :
-        <input type="text">
-        <input type="submit" value="Search">
+    <form method="GET" action="search.php">
+        <input type="text" name="query" placeholder="Search for a tag or username">
+        <button type="submit">Find Your Mate</button>
     </form>
+
     <p> Our 10 latest users :
     <br>
     <?php
