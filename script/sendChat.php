@@ -9,7 +9,7 @@ $user1 = $_POST['user1'];
 $user2 = $_POST['user2'];
 $messageContent = $_POST['message'];
 
-$chatFile = "chats/" . min($user1, $user2) . "-" . max($user1, $user2) . ".json";
+$chatFile = "../chats/" . min($user1, $user2) . "-" . max($user1, $user2) . ".json";
 
 $chatData = json_decode(file_get_contents($chatFile), true);
 $newMessage = [

@@ -4,7 +4,7 @@ function sendMessage(user1, user2) {
     if (message.trim() === "") return;
 
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", "sendChat.php", true);
+    xhr.open("POST", "script/sendChat.php", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
     xhr.onreadystatechange = function () {
