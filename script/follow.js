@@ -1,4 +1,20 @@
-function followUser(target, type) {
+function toggleState(btn, target) {
+    
+    var type;
+    switch(btn.innerText) {
+        case "Follow":
+            type = "follow";
+            break;
+        case "Unfollow":
+            type = "unfollow"; 
+            break;
+        case "Block":
+            type = "block";
+            break;
+        case "Unblock":
+            type = "unblock"
+    }
+
     var xhr = new XMLHttpRequest();
     xhr.open("POST", "script/follow.php", true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -8,38 +24,26 @@ function followUser(target, type) {
             if (xhr.status === 200) {
                 var response = JSON.parse(xhr.responseText);
                 if (response.success) {
-                    switch(type) {
-                        case "follow":
-                            document.getElementById("followStatus").innerText = "Followed";
+                    switch (btn.innerText) {
+                        case "Follow":
+                            btn.innerText = "Unfollow";
                             break;
-                        case "block":
-                            document.getElementById("blockStatus").innerText = "Blocked";
+                        case "Unfollow":
+                            btn.innerText = "Follow";
                             break;
-                        case "unfollow":
-                            document.getElementById("followStatus").innerText = "Unfollowed";
+                        case "Block":
+                            btn.innerText = "Unblock";
+                            document.getElementById("follow").disabled = true;
+                            document.getElementById("follow").innerText = "Follow";
                             break;
-                        case "unblock":
-                            document.getElementById("blockStatus").innerText = "Unblocked";
-                            break;
-                        default:
+                        case "Unblock":
+                            btn.innerText = "Block";
+                            document.getElementById("follow").disabled = false;
                             break;
                     }
                 } else {
-                    switch(type) {
-                        case "follow":
-                        case "unfollow":
-                            document.getElementById("followStatus").innerText = response.message;
-                            break;
-                        case "block":
-                        case "unblock":
-                            document.getElementById("blockStatus").innerText = response.message;
-                            break;
-                        default:
-                            break;
-                    }
+                    btn.innerText = "Error";
                 }
-            } else {
-                console.error("Error: " + xhr.statusText);
             }
         }
     };

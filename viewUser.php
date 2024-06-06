@@ -29,6 +29,30 @@ $colorPalette = ["#FF5733", "#33FF57", "#3357FF", "#F39C12", "#8E44AD", "#1ABC9C
 function getRandomColor($palette) {
     return $palette[array_rand($palette)];
 }
+
+// This feels hacky and efficient at once.
+function checkFollow($username, $target) {
+    $subsFile = "users/$username/subs";
+    if (file_exists($subsFile)) {
+        $lines = file($subsFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        if (in_array($target, $lines)) {
+            echo "Unfollow";
+        } else {
+            echo "Follow";
+        }
+    }
+}
+function checkBlock($username, $target) {
+    $blocksFile = "users/$username/blocks";
+    if (file_exists($blocksFile)) {
+        $lines = file($blocksFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        if (in_array($target, $lines)) {
+            echo "Unblock";
+        } else {
+            echo "Block";
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -61,12 +85,9 @@ function getRandomColor($palette) {
 </head>
 <body>
     <h1><?php echo htmlspecialchars($user);?>'s page</h1>
-    <p id="followStatus">Not Following</p>
-    <p id="blockStatus">Not Blocked</p>
-    <button id="followBtn" onclick="followUser('<?php echo htmlspecialchars($user); ?>', 'follow')">Follow</button>
-    <button id="unfollowBtn" onclick="followUser('<?php echo htmlspecialchars($user); ?>', 'unfollow')">Unfollow</button>
-    <button id="blockBtn" onclick="followUser('<?php echo htmlspecialchars($user); ?>', 'block')">Block</button>
-    <button id="unblockBtn" onclick="followUser('<?php echo htmlspecialchars($user); ?>', 'unblock')">Unblock</button>
+
+    <button id="follow" onclick="toggleState(this, <?php echo('\''.$user.'\'')?>)"><?php checkFollow($_SESSION["username"], $user)?></button>
+    <button id="block" onclick="toggleState(this, <?php echo('\''.$user.'\'')?>)"><?php checkBlock($_SESSION["username"], $user)?></button>
     <table>
         <tr>
             <th>Setting</th>
