@@ -106,3 +106,42 @@ function saveSettings() {
             xhr.send(JSON.stringify(settings));
         })
 }
+<<<<<<< HEAD
+=======
+
+function getSavedSettings() {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "script/getSettings.php", true);
+    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+    xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                var savedSettings = JSON.parse(xhr.responseText);
+                applySavedSettings(savedSettings);
+            } else {
+                console.error("Failed to fetch saved settings: " + xhr.statusText);
+            }
+        }
+    };
+    xhr.send();
+}
+
+function applySavedSettings(savedSettings) {
+    for (var key in savedSettings) {
+        var setting = savedSettings[key];
+        if (settingsList[key]) {
+            if (settingsList[key].type === "select" || settingsList[key].type === "text") {
+                document.getElementById(key).value = setting;
+            } else if (settingsList[key].type === "checkbox") {
+                document.getElementById(key).checked = setting;
+            }
+        }
+    }
+}
+
+window.onload = function() {
+    generateForm();
+    getSavedSettings();
+};
+>>>>>>> af96c5c2d55c7d819e60a73b3347f9212b1a7003
