@@ -1,4 +1,5 @@
-<!-- TODO : CLEAN THIS MESS UP!!!! -->
+<!DOCTYPE html>
+
 <?php
 session_start();
 if (isset($_SESSION["loggedin"])) {
@@ -7,29 +8,18 @@ if (isset($_SESSION["loggedin"])) {
 }
 ?>
 
-<html>
-    <head>
-        <script>
-            function toggleRegister(checkbox) {
-                var loginBtn = document.getElementById("loginBtn");
-                var registerBtn = document.getElementById("registerBtn");
-                var registerToggle = document.getElementById("registerToggle");
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login_Heartbeat</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="assets/login/style.css">
+</head>
+<body>
 
-                if (checkbox.checked) {
-                    registerDiv.style.display = "block";
-                    loginBtn.style.display = "none";
-                    loginBtn.disabled = true;
-                    registerBtn.disabled = false;
-                } else {
-                    registerDiv.style.display = "none";
-                    loginBtn.style.display = "block";
-                    loginBtn.disabled = false;
-                    registerBtn.disabled = true;
-                }
-            }
-        </script>
-    </head>
-    <body>
+    <!--Page d'accueil pour le login/register-->
+
+    <!-- Je suis désolé Camille mais je doit tarnir ton HTML pour faire rentrer mon PHP dégeu :( -->
     <?php
         $badInput = false;
         $badLogin = false;
@@ -61,7 +51,10 @@ if (isset($_SESSION["loggedin"])) {
                             $hashedPass = password_hash($password, PASSWORD_DEFAULT);
                             mkdir($userPrefix);
                             file_put_contents("users/" . $username . "/pass" , $hashedPass, FILE_APPEND);
-                            $userCreated = true;
+                            $_SESSION["loggedin"] = true;
+                            $_SESSION["username"] = $username;
+                            header("Location: main.php");
+                            exit;
                         } else {
                             $passwordMismatch = true;
                         }
@@ -79,33 +72,98 @@ if (isset($_SESSION["loggedin"])) {
         unset($_POST["password"]);
         unset($_POST["password_confirm"]);
     ?>
-        <h1>Welcome to CY-Date</h1>
-        
-        <?php if ($badInput) { ?>
-            <p>Error: Username and password must be alphanumeric.</p>
-        <?php } ?>
-        <?php if ($badLogin) { ?>
-            <p>Error: Invalid username or password.</p>
-        <?php } ?>
-        <?php if ($userExists) { ?>
-            <p>Error: User already exists.</p>
-        <?php } ?>
-        <?php if ($passwordMismatch) { ?>
-            <p>Error: Passwords do not match.</p>
-        <?php } ?>
-        <?php if ($userCreated) { ?>
-            <p>User successfully registered.</p>
-        <?php } ?>
 
-        <form action="" method="POST">
-            User :<input type="text" name="username"><br>
-            Pass :<input type="Password" name="password"><br>
-            <input type=submit name="login" value="Login" id="loginBtn">
-            <div id="registerDiv" style="display: none;">
-                Confirm Pass: <input type="password" name="password_confirm"><br>
-                <input type=submit name="register" value="Register" id="registerBtn" disabled>
+    <header>
+        <img src="assets/login/logo_H.GIF">
+        <nav class="navigation">
+            <a href="profil.html">About</a>
+            <button class="btnLogin">Login</button>
+        </nav>
+    </header>
+
+    <!--Petite description -->
+
+    <div class="description">
+        <h1>THE RIGHT SITE TO FIND THE RIGHT PERSON</h1>
+        <h3>Why don't you try ?</h3>
+    </div>
+
+        <div class="wrapper">
+            <span class="icon-close"><ion-icon name="close-outline"></ion-icon></span>
+
+
+            <!--Login-->
+
+            <div class="form-box login">
+                <h2>Login</h2>
+                <form action="" method="POST">
+                    <div class="input-box">
+                        <span class="icon"><ion-icon name="person-outline"></ion-icon></span>
+                        <input type="username" name="username" required>
+                        <label>Username</label>
+                    </div>
+                    <div class="input-box">
+                        <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
+                        <input type="password" name="password" required>
+                        <label>Password</label>
+                    </div>
+                    <button type="submit" name="login" value="Login" class="btn">Login</button>
+                    <div class="login-register">
+                        <!-- Encore désolé, on fait rentrer les codes d'erreur ici ! -->
+                        <?php if ($badInput) { ?>
+                            <p>Error: Username and password must be alphanumeric.</p></br>
+                        <?php } ?>
+                        <?php if ($badLogin) { ?>
+                            <p>Error: Invalid username or password.</p></br>
+                        <?php } ?>
+                        <p>Don't have an account ?
+                        <a href="#" class="register-link">Register now</a></p>
+
+                    </div>
+                </form>
+
             </div>
-            <label><input type="checkbox" onchange="toggleRegister(this)"> Register</label>
-        </form>
-    </body>
+
+            <!--Register-->
+
+            <div class="form-box register">
+                <h2>Registration</h2>
+                <form action="" method="POST">
+                    <div class="input-box">
+                        <span class="icon"><ion-icon name="person-outline"></ion-icon></span>
+                        <input type="text" name="username" required>
+                        <label>Username</label>
+                    </div>
+                    <div class="input-box">
+                        <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
+                        <input type="password" name="password" required>
+                        <label>Password</label>
+                    </div>
+                    <div class="input-box">
+                        <input type="password" name="password_confirm" required>
+                        <label>Comfirm Password</label>
+                    </div>
+                    <button type="submit" name="register" value="Register" class="btn">Register</button>
+                    <div class="login-register">
+                        <?php if ($badInput) { ?>
+                            <p>Error: Username and password must be alphanumeric.</p></br>
+                        <?php } ?>
+                        <?php if ($userExists) { ?>
+                            <p>Error: User already exists.</p></br>
+                        <?php } ?>
+                        <?php if ($passwordMismatch) { ?>
+                            <p>Error: Passwords do not match.</p></br>
+                        <?php } ?>
+                        <p>Already have an account ?
+                            <a href="#" class="login-link">Login</a></p>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    <script src="assets/login/script.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
 </html>
