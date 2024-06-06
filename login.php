@@ -10,7 +10,7 @@ if (isset($_SESSION["loggedin"])) {
 
 <html>
 <head>
-    <title>Login_Heartbeat</title>
+    <title>Heartbeat Login</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="assets/login/style.css">
 </head>
@@ -46,7 +46,7 @@ if (isset($_SESSION["loggedin"])) {
                 // Register
                 if (isset($_POST["register"]) && isset($_POST["email"])) {
                     $banlist = file_get_contents("users/banlist");
-                    if (strpos($banlist, $email) === false) {
+                    if (stripos($banlist, $email) != TRUE) {
                         if (!is_dir($userPrefix)) {
                             if ($_POST["password"] === $_POST["password_confirm"]) {
                                 $hashedPass = password_hash($password, PASSWORD_DEFAULT);
@@ -98,7 +98,9 @@ if (isset($_SESSION["loggedin"])) {
 
     <div class="description">
         <h1>THE RIGHT SITE TO FIND THE RIGHT PERSON</h1>
+        <h2>And no need for eyes !</h2>
         <h3>Why don't you try ?</h3>
+        <p><3beat, the dating site where posting images is a bannable offense !</p>
     </div>
 
         <div class="wrapper">

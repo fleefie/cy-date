@@ -18,25 +18,27 @@ if ($username === "Admin") {
 <html>
 <head>
     <script src="script/generateSettings.js"></script>
-    <style>
-        .nav li {
-            display: inline-block;
-        }
-    </style>
+    <link rel="stylesheet" href="assets/main.css">
+    <title>My Settings</title>
 </head>
 <body>
-    <div class="nav">
-        <ul>
-            <li><a href="main.php">Home</a>
-            <li><a href="search.php">Search</a>
-            <li><a href="followList.php">Followed</a>
-            <li><a href="viewUser.php?<?php echo 'user='.$_SESSION['username'];?>">My Page</a>
-            <li><a href="logoff.php">Log Out</a> 
-        </ul>
-    </div>
+    <header>
+        <img src="assets/logo_H.png">
+        <nav class="navigation">
+            <div class="icondiv">
+            <a href="main.php"><img class="icon" src="assets/icons/home-outline.svg"></a>
+            <a href="search.php"><img class="icon" src="assets/icons/search-outline.svg"></a>
+            <a href="followList.php"><img class="icon" src="assets/icons/people-outline.svg"></a>
+            <a href="viewUser.php?<?php echo 'user='.$_SESSION['username'];?>"><img class="icon" src="assets/icons/person-outline.svg"></a>
+            <a href="userConfig.php"><img class="icon" src="assets/icons/cog-outline.svg"></a>
+            <button class="btnLogout" onclick="window.location.href='logoff.php';">Log out</button>
+            </div>
+        </nav>
+    </header>
+    <div class="normalDis">
     <p id="saveStatus"></p>
     <?php
-    echo("<h1>Welcome, " . $username. " !</h1>"); 
+    echo("<h1>" . $username. "'s settings</h1>"); 
     
     if ($username === "Admin") {
         echo("ADMIN PANNEL : Select an account to edit");
@@ -49,5 +51,6 @@ if ($username === "Admin") {
     <form id="settingsForm" onsubmit="event.preventDefault(); saveSettings();">
         <input type="hidden" id="username" value="<?php echo $TARGET; ?>">
     </form>
+    <div>
 </body>
 </html>

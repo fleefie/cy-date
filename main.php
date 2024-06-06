@@ -15,6 +15,7 @@ if (!is_file("users/".$_SESSION['username']."/user.json")) {
 <!DOCTYPE HTML>
 <head>
 <link rel="stylesheet" href="assets/main.css">
+<title>Home</title>
 </head>
 <body>
     <header>

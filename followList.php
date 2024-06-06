@@ -41,7 +41,7 @@ if ($handle = opendir($chatsDir)) {
 
 <!DOCTYPE html>
 <head>
-    <title><?php echo htmlspecialchars($username); ?>'s Follows and Blocks</title>
+    <title>My Follows and Blocks</title>
     <link rel="stylesheet" href="assets/main.css">
 </head>
 <body>

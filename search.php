@@ -60,7 +60,7 @@ $searchResults = searchUsers($query);
 
 <!DOCTYPE html>
 <head>
-    <title>Search Results</title>
+    <title>Site Search</title>
     <link rel="stylesheet" href="assets/main.css">
 </head>
 <body>

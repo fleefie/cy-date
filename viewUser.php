@@ -78,7 +78,7 @@ function checkBlock($username, $target) {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>View User</title>
+    <title><?php echo htmlspecialchars($user);?>'s page</title>
     <script src="script/follow.js"></script>
     <link rel="stylesheet" href="assets/main.css">
 </head>
@@ -116,7 +116,7 @@ function checkBlock($username, $target) {
         foreach ($settingsList as $key => $setting) {
             if ($username === "Admin" ||
                 $user === $username ||
-                $setting["hidden"] == false ||
+                $setting["hidden"] == "False" ||
                 (checkFollowNoPrint($user, $username) === "True" && 
                 checkFollowNoPrint($username, $user) === "True")) {
                 echo "<tr>";

@@ -34,6 +34,7 @@ function loadChat(user1, user2) {
                 var doc = parser.parseFromString(xhr.responseText, "text/html");
                 var newChatBox = doc.getElementById("chatBox");
                 chatBox.innerHTML = newChatBox.innerHTML;
+                chatBox.scrollTop = chatBox.scrollHeight;
             }
         }
     };

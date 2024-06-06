@@ -4,20 +4,20 @@
         "type": "text",
         "cols": "80",
         "rows": "10",
-        "hidden": "false"
+        "hidden": "False"
     },
     "tags": {
         "label": "Tags",
         "type": "text",
-        "cols": "30",
-        "rows": "30",
-        "hidden": "false"
+        "cols": "80",
+        "rows": "4",
+        "hidden": "False"
     },
     "gender": {
         "label": "Gender",
         "type": "select",
         "options": ["Male", "Female", "Not Specified"],
-        "hidden": "false"
+        "hidden": "False"
     },
     "age": {
         "label": "Age Range",

@@ -1,11 +1,13 @@
 function generateForm(settingsList, userSettings) {
     var form = document.getElementById("settingsForm");
+    var table = document.createElement("table");
     for (var key in settingsList) {
+        var row = document.createElement("tr");
         var setting = settingsList[key];
-        var label = document.createElement("label");
+        var label = document.createElement("td");
         label.innerHTML = setting.label + ": ";
-        form.appendChild(label);
-
+        row.appendChild(label);
+        var cell = document.createElement("td");
         if (setting.type === "select") {
             var select = document.createElement("select");
             select.id = key;
@@ -19,7 +21,7 @@ function generateForm(settingsList, userSettings) {
                 }
                 select.appendChild(opt);
             }
-            form.appendChild(select);
+            cell.appendChild(select);
         
         } else if (setting.type === "checkbox") {
             var checkbox = document.createElement("input");
@@ -29,7 +31,7 @@ function generateForm(settingsList, userSettings) {
             if (userSettings[key]) {
                 checkbox.checked = true;
             }
-            form.appendChild(checkbox);
+            cell.appendChild(checkbox);
         
         } else if (setting.type === "text") {
             var textinput = document.createElement("textarea");
@@ -43,11 +45,13 @@ function generateForm(settingsList, userSettings) {
             } else {
                 textinput.value = userSettings[key];
             }
-            form.appendChild(textinput);
+            cell.appendChild(textinput);
         }
 
-        form.appendChild(document.createElement("br"));
+        row.appendChild(cell);
+        table.appendChild(row);
     }
+    form.appendChild(table)
     var submit = form.appendChild(document.createElement("input"));
     submit.value = "Save Settings";
     submit.type = "submit";
