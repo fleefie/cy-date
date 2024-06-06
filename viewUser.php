@@ -88,6 +88,11 @@ function checkBlock($username, $target) {
 
     <button id="follow" onclick="toggleState(this, <?php echo('\''.$user.'\'')?>)"><?php checkFollow($_SESSION["username"], $user)?></button>
     <button id="block" onclick="toggleState(this, <?php echo('\''.$user.'\'')?>)"><?php checkBlock($_SESSION["username"], $user)?></button>
+    <script>
+        if ('<?php checkBlock($_SESSION["username"], $user)?>' == "Unblock") {
+            document.getElementById("follow").disabled = true;
+        }
+    </script>
     <table>
         <tr>
             <th>Setting</th>
