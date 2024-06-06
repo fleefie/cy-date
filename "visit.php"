@@ -1,0 +1,36 @@
+<?php
+
+if(!isset($_SESSION['username'])){
+  header("Location: login.php");
+  exit;
+}
+$visituser = isset($_GET['user']) ? $_GET['user'] : null;
+
+if ($visituser === null){
+  echo "non specified user";
+  exit;
+}
+
+$cU = $_SESSION['username'];
+
+$rFP = "user/{visituser}/info.txt";
+
+if(!is_dir("user/{visituser}")){
+  echo "user not found";
+  exit;
+}
+
+if(!file_exists($rFP)){
+  file_put_contents($rFP, "0");
+}
+
+$cV = file($rFP, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+if(!in_array($cU, $cV)){
+  $cV[] = $cU;
+  file_put_contents($rFP, implode(PHP_EOL, $cV) . PHP_EOL);
+}
+
+echo "VGHIH"
+
+
