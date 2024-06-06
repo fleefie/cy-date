@@ -71,9 +71,9 @@ $searchResults = searchUsers($query);
     <div class="nav">
         <ul>
             <li><a href="main.php">Home</a>
-            <li><a href="userConfig.php">Settings</a>
             <li><a href="followList.php">Followed</a>
-            <li><a href="viewUser.php?<?php echo "user=".$_SESSION["username"];?>">My Page</a>
+            <li><a href="viewUser.php?<?php echo 'user='.$_SESSION['username'];?>">My Page</a>
+            <li><a href="userConfig.php">Settings</a>
             <li><a href="logoff.php">Log Out</a> 
         </ul>
     </div>

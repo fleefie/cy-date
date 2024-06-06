@@ -23,9 +23,10 @@ if (!is_file("users/".$_SESSION['username']."/user.json")) {
 <body>
     <div class="nav">
         <ul>
-            <li><a href="userConfig.php">Settings</a>
+            <li><a href="search.php">Search</a>
             <li><a href="followList.php">Followed</a>
             <li><a href="viewUser.php?<?php echo 'user='.$_SESSION['username'];?>">My Page</a>
+            <li><a href="userConfig.php">Settings</a>
             <li><a href="logoff.php">Log Out</a> 
         </ul>
     </div>
@@ -36,7 +37,7 @@ if (!is_file("users/".$_SESSION['username']."/user.json")) {
         <button type="submit">Find Your Mate</button>
     </form>
 
-    <p> Our 10 latest users :
+    <p> Our 25 latest users :
     <br>
     <?php
         $lines = file("users/userlist", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);

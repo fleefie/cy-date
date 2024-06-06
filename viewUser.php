@@ -10,6 +10,7 @@ if (!isset($_GET["user"])) {
     exit;
 }
 
+$username = $_SESSION["username"];
 $user = $_GET["user"];
 $userFile = "users/$user/user.json";
 
@@ -42,6 +43,19 @@ function checkFollow($username, $target) {
         }
     }
 }
+
+function checkFollowNoPrint($username, $target) {
+    $subsFile = "users/$username/subs";
+    if (file_exists($subsFile)) {
+        $lines = file($subsFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        if (in_array($target, $lines)) {
+            return "True";
+        } else {
+            return "False";
+        }
+    }
+}
+
 function checkBlock($username, $target) {
     $blocksFile = "users/$username/blocks";
     if (file_exists($blocksFile)) {
@@ -56,8 +70,9 @@ function checkBlock($username, $target) {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>View User</title>
     <style>
         table {
@@ -88,9 +103,12 @@ function checkBlock($username, $target) {
 <body>
     <div class="nav">
         <ul>
-            <li><a href="userConfig.php">Settings</a>
-            <li><a href="followList.php">Followed</a>
+            <li><a href="main.php">Home</a>
+            <li><a href="followList.php">Following</a>
+            <script src="script/follow.js"></script>
+            <li><a href="search.php">Search</a>
             <li><a href="viewUser.php?<?php echo 'user='.$_SESSION['username'];?>">My Page</a>
+            <li><a href="userConfig.php">Settings</a>
             <li><a href="logoff.php">Log Out</a> 
         </ul>
     </div>
@@ -98,6 +116,8 @@ function checkBlock($username, $target) {
 
     <button id="follow" onclick="toggleState(this, <?php echo('\''.$user.'\'')?>)"><?php checkFollow($_SESSION["username"], $user)?></button>
     <button id="block" onclick="toggleState(this, <?php echo('\''.$user.'\'')?>)"><?php checkBlock($_SESSION["username"], $user)?></button>
+    <a target=blank href=<?php echo("chat.php?user1=" . $_SESSION["username"] . '&user2=' . $user); ?>>Start A Chat</a>
+    <a target=blank href=<?php echo("chat.php?user1=" . $_SESSION["username"] . '&user2=Admin'); ?>>Report</a>
     <script>
         if ('<?php checkBlock($_SESSION["username"], $user)?>' == "Unblock") {
             document.getElementById("follow").disabled = true;
@@ -110,7 +130,11 @@ function checkBlock($username, $target) {
         </tr>
         <?php
         foreach ($settingsList as $key => $setting) {
-            if ($setting["hidden"] !== "True") {
+            if ($username === "Admin" ||
+                $user === $username ||
+                $setting["hidden"] == false ||
+                (checkFollowNoPrint($user, $username) === "True" && 
+                checkFollowNoPrint($username, $user) === "True")) {
                 echo "<tr>";
                 echo "<td>" . htmlspecialchars($setting["label"]) . "</td>";
                 

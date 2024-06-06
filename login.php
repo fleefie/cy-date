@@ -57,7 +57,7 @@ if (isset($_SESSION["loggedin"])) {
                                 $usernames = file("users/userlist", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
                             }
                             array_push($usernames, $username);
-                            $usernames = array_slice($usernames, -15);
+                            $usernames = array_slice($usernames, -25);
                             file_put_contents("users/userlist", implode("\n", $usernames));
                             touch("users/".$username."/subs");
                             touch("users/".$username."/blocks");

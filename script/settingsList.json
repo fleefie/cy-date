@@ -32,12 +32,5 @@
         "cols": "50",
         "rows": "1",
         "hidden": "True"
-    },
-    "email": {
-        "label": "Email",
-        "type": "text",
-        "cols": "50",
-        "rows": "1",
-        "hidden": "True"
     }
 }

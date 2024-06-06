@@ -5,6 +5,8 @@ if (!isset($_SESSION["username"])) {
     header("Location: login.php"); 
     exit;
 }
+
+$username = $_SESSION["username"];
 ?>
 <html>
 <head>
@@ -19,6 +21,7 @@ if (!isset($_SESSION["username"])) {
     <div class="nav">
         <ul>
             <li><a href="main.php">Home</a>
+            <li><a href="search.php">Search</a>
             <li><a href="followList.php">Followed</a>
             <li><a href="viewUser.php?<?php echo 'user='.$_SESSION['username'];?>">My Page</a>
             <li><a href="logoff.php">Log Out</a> 
@@ -26,10 +29,10 @@ if (!isset($_SESSION["username"])) {
     </div>
     <p id="saveStatus"></p>
     <?php
-    echo("<h1>Welcome, " . $_SESSION["username"] . " !</h1>"); 
+    echo("<h1>Welcome, " . $username. " !</h1>"); 
     ?>
     <form id="settingsForm" onsubmit="event.preventDefault(); saveSettings();">
-        <input type="hidden" id="username" value="<?php echo $_SESSION['username']; ?>">
+        <input type="hidden" id="username" value="<?php echo $username; ?>">
     </form>
 </body>
 </html>
