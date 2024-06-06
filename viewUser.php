@@ -57,9 +57,16 @@ function getRandomColor($palette) {
             color: #fff;
         }
     </style>
+    <script src="script/follow.js"></script>
 </head>
 <body>
-    <h1>User Settings for <?php echo htmlspecialchars($user); ?></h1>
+    <h1><?php echo htmlspecialchars($user);?>'s page</h1>
+    <p id="followStatus">Not Following</p>
+    <p id="blockStatus">Not Blocked</p>
+    <button id="followBtn" onclick="followUser('<?php echo htmlspecialchars($user); ?>', 'follow')">Follow</button>
+    <button id="unfollowBtn" onclick="followUser('<?php echo htmlspecialchars($user); ?>', 'unfollow')">Unfollow</button>
+    <button id="blockBtn" onclick="followUser('<?php echo htmlspecialchars($user); ?>', 'block')">Block</button>
+    <button id="unblockBtn" onclick="followUser('<?php echo htmlspecialchars($user); ?>', 'unblock')">Unblock</button>
     <table>
         <tr>
             <th>Setting</th>
