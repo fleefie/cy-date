@@ -1,0 +1,28 @@
+{
+    "theme": {
+        "label": "Theme",
+        "type": "select",
+        "options": ["light", "dark"]
+    },
+    "notifications": {
+        "label": "Enable Notifications",
+        "type": "checkbox"
+    },
+    "fontSize": {
+        "label": "Font Size",
+        "type": "select",
+        "options": ["small", "medium", "large"]
+    },
+    "description": {
+        "label": "Description",
+        "type": "text",
+        "cols": "80",
+        "rows": "10"
+    },
+    "tags": {
+        "label": "Tags",
+        "type": "text",
+        "cols": "30",
+        "rows": "30"
+    }
+}

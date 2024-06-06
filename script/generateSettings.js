@@ -1,33 +1,4 @@
-var settingsList = {
-    theme: {
-        label: "Theme",
-        type: "select",
-        options: ["light", "dark"]
-    },
-    notifications: {
-        label: "Enable Notifications",
-        type: "checkbox"
-    },
-    fontSize: {
-        label: "Font Size",
-        type: "select",
-        options: ["small", "medium", "large"]
-    },
-    description: {
-        label: "Description",
-        type: "text",
-        cols: "80",
-        rows: "10"
-    },
-    tags: {
-        label: "Tags",
-        type: "text",
-        cols: "30",
-        rows: "30"
-    }
-};
-
-function generateForm() {
+function generateForm(settingsList, userSettings) {
     var form = document.getElementById("settingsForm");
     for (var key in settingsList) {
         var setting = settingsList[key];
@@ -39,10 +10,13 @@ function generateForm() {
             var select = document.createElement("select");
             select.id = key;
             select.name = key;
-            for (var option in setting.options) {
+            for (var option of setting.options) {
                 var opt = document.createElement("option");
-                opt.value = setting.options[option];
-                opt.innerHTML = setting.options[option];
+                opt.value = option;
+                opt.innerHTML = option;
+                if (userSettings[key] === option) {
+                    opt.selected = true;
+                }
                 select.appendChild(opt);
             }
             form.appendChild(select);
@@ -52,6 +26,9 @@ function generateForm() {
             checkbox.type = "checkbox";
             checkbox.id = key;
             checkbox.name = key;
+            if (userSettings[key]) {
+                checkbox.checked = true;
+            }
             form.appendChild(checkbox);
         
         } else if (setting.type === "text") {
@@ -61,6 +38,11 @@ function generateForm() {
             textinput.rows = setting.rows;
             textinput.cols = setting.cols;
             textinput.style.resize = "none";
+            if (key === "tags") {
+                textinput.value = normalizeTags(userSettings[key]);
+            } else {
+                textinput.value = userSettings[key];
+            }
             form.appendChild(textinput);
         }
 
@@ -69,35 +51,58 @@ function generateForm() {
     var submit = form.appendChild(document.createElement("input"));
     submit.value = "Save Settings";
     submit.type = "submit";
-
 }
+
+function normalizeTags(tags) {
+    if (!tags) return "";
+    // A bit of magic ! Turns any combination of tags and dots, colons, semicolons, commas and spaces into a normalized tag format 
+    return tags.split(/[ ,.;:]+/).filter(tag => tag.trim() !== "").join(", ");
+}
+
+function loadSettings() {
+    fetch("script/settingsList.json")
+        .then(response => response.json())
+        .then(settingsList => {
+            fetch("../users/${document.getElementById('username').value}/user.json")
+                .then(response => response.json())
+                .then(userSettings => generateForm(settingsList, userSettings))
+        })
+}
+
+window.onload = loadSettings;
 
 function saveSettings() {
-    var settings = {};
-    for (var key in settingsList) {
-        var setting = settingsList[key];
-        if (setting.type === "select" || setting.type === "text") {
-            settings[key] = document.getElementById(key).value;
-        } else if (setting.type === "checkbox") {
-            settings[key] = document.getElementById(key).checked;
-        }
-    }
-
-    var xhr = new XMLHttpRequest();
-    xhr.open("POST", "script/saveSettings.php", true);
-    xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-
-    xhr.onreadystatechange = function() {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-                document.getElementById("saveStatus").innerText = "Settings Saved!";
-            } else {
-                document.getElementById("saveStatus").innerText = xhr.statusText;
+    fetch("script/settingsList.json")
+        .then(response => response.json())
+        .then(settingsList => {
+            var settings = {};
+            for (var key in settingsList) {
+                var setting = settingsList[key];
+                if (setting.type === "select" || setting.type === "text") {
+                    if (key === "tags") {
+                        settings[key] = normalizeTags(document.getElementById(key).value);
+                    } else {
+                        settings[key] = document.getElementById(key).value;
+                    }
+                } else if (setting.type === "checkbox") {
+                    settings[key] = document.getElementById(key).checked;
+                }
             }
-        }
-    };
 
-    xhr.send(JSON.stringify(settings));
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "script/saveSettings.php", true);
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        document.getElementById("saveStatus").innerText = "Settings Saved!";
+                    } else {
+                        document.getElementById("saveStatus").innerText = xhr.statusText;
+                    }
+                }
+            };
+
+            xhr.send(JSON.stringify(settings));
+        })
 }
-
-window.onload = generateForm;
