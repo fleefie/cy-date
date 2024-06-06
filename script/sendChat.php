@@ -18,6 +18,6 @@ $newMessage = [
     "date" => date("d-m H:i:s")
 ];
 $chatData[] = $newMessage;
-file_put_contents($chatFile, json_encode($chatData));
+file_put_contents($chatFile, json_encode($chatData, JSON_PRETTY_PRINT));
 
 echo json_encode(["success" => true]);
