@@ -1,9 +1,8 @@
 {
-    "description": "Administrator",
-    "tags": "Administrator",
+    "description": "Admin",
+    "tags": "",
     "gender": "Not Specified",
-    "age": "38-48",
+    "age": "23-28",
     "region": "Europe",
-    "name": "Admin. E. Strator",
-    "email": "Administrator"
+    "name": "Admin I. Strateur"
 }

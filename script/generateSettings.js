@@ -59,6 +59,13 @@ function normalizeTags(tags) {
     return tags.split(/[ ,.;:]+/).filter(tag => tag.trim() !== "").join(", ");
 }
 
+
+// On a utilisé XHR dans ce projet, donc ajouter fetch ici ca fait tâche.
+// TODO : Choisir un des deux ET RESTER SUR CE CHOIX.
+// En plus fetch c'est pas bien pour la sécurité, et en plus
+// Je comprends a peine le système de promesse donc ya toujours
+// 304598734950 bugs avec fetch :(
+
 function loadSettings() {
     fetch("script/settingsList.json")
         .then(response => response.json())
@@ -76,9 +83,6 @@ function loadSettings() {
                     generateForm(settingsList, "");
                 });
         })
-        .catch(error => {
-            console.error('Error loading settings list:', error);
-        });
 }
 
 window.onload = loadSettings;
@@ -102,7 +106,7 @@ function saveSettings() {
             }
 
             var xhr = new XMLHttpRequest();
-            xhr.open("POST", "script/saveSettings.php", true);
+            xhr.open("POST", "script/saveSettings.php?target=" + encodeURIComponent(document.getElementById("username").value), true);
             xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
             xhr.onreadystatechange = function() {

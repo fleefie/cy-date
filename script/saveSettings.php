@@ -10,6 +10,15 @@ if (!file_exists($settingsfile)) {
     touch($settingsfile);
 }
 
+if ($_SESSION["username"] === "Admin") {
+    if(isset($_GET["target"])) {
+        $settingsfile = $_SERVER["DOCUMENT_ROOT"] . "/users/" . $_GET["target"] . "/user.json";
+        if (!file_exists($settingsfile)) {
+        touch($settingsfile);
+        }
+    }
+}
+
 $input = file_get_contents('php://input');
 $settings = json_decode($input, true);
 
@@ -23,7 +32,7 @@ $validSettings = [
     "region" => ["Europe", "Asia", "Oceania", "Africa", "North America", "South America"],
 ];
 
-// This is JUST verification. Holy fuck.
+// This is JUST verification. Holy.
 foreach ($settings as $key => $value) {
     // If the setting doesn't exist, or if it exists and has an invalid value and is not a text field, error out
     // Holy spaghetti

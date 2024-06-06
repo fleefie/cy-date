@@ -7,6 +7,13 @@ if (!isset($_SESSION["username"])) {
 }
 
 $username = $_SESSION["username"];
+$TARGET = $username;
+
+if ($username === "Admin") {
+    if (isset($_GET["TARGET"])) {
+        $TARGET = $_GET["TARGET"];
+    }
+}
 ?>
 <html>
 <head>
@@ -30,9 +37,17 @@ $username = $_SESSION["username"];
     <p id="saveStatus"></p>
     <?php
     echo("<h1>Welcome, " . $username. " !</h1>"); 
+    
+    if ($username === "Admin") {
+        echo("ADMIN PANNEL : Select an account to edit");
     ?>
+    <form method="GET">
+        <input name="TARGET">
+        <input type=submit value="select">
+    </form>
+    <?php }?>
     <form id="settingsForm" onsubmit="event.preventDefault(); saveSettings();">
-        <input type="hidden" id="username" value="<?php echo $username; ?>">
+        <input type="hidden" id="username" value="<?php echo $TARGET; ?>">
     </form>
 </body>
 </html>
