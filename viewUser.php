@@ -118,6 +118,9 @@ function checkBlock($username, $target) {
     <button id="block" onclick="toggleState(this, <?php echo('\''.$user.'\'')?>)"><?php checkBlock($_SESSION["username"], $user)?></button>
     <a target=blank href=<?php echo("chat.php?user1=" . $_SESSION["username"] . '&user2=' . $user); ?>>Start A Chat</a>
     <a target=blank href=<?php echo("chat.php?user1=" . $_SESSION["username"] . '&user2=Admin'); ?>>Report</a>
+    <?php if ($_SESSION["username"] === "Admin") { ?>
+        <a href=<?php echo("script/banUser.php?target=" . $user); ?>>[KILL 9]</a>
+    <?php } ?>
     <script>
         if ('<?php checkBlock($_SESSION["username"], $user)?>' == "Unblock") {
             document.getElementById("follow").disabled = true;

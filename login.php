@@ -45,26 +45,31 @@ if (isset($_SESSION["loggedin"])) {
                 }
                 // Register
                 if (isset($_POST["register"]) && isset($_POST["email"])) {
-                    if (!is_dir($userPrefix)) {
-                        if ($_POST["password"] === $_POST["password_confirm"]) {
-                            $hashedPass = password_hash($password, PASSWORD_DEFAULT);
-                            mkdir($userPrefix);
-                            file_put_contents("users/" . $username . "/pass" , $hashedPass . ":" . $_POST["email"], FILE_APPEND);
-                            $_SESSION["loggedin"] = true;
-                            $_SESSION["username"] = $username;
-                            $usernames = [];
-                            if (file_exists("users/userlist")) {
-                                $usernames = file("users/userlist", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+                    $banlist = file_get_contents("users/banlist");
+                    if (strpos($banlist, $email) === false) {
+                        if (!is_dir($userPrefix)) {
+                            if ($_POST["password"] === $_POST["password_confirm"]) {
+                                $hashedPass = password_hash($password, PASSWORD_DEFAULT);
+                                mkdir($userPrefix);
+                                file_put_contents("users/" . $username . "/pass" , $hashedPass . ":" . $_POST["email"], FILE_APPEND);
+                                $_SESSION["loggedin"] = true;
+                                $_SESSION["username"] = $username;
+                                $usernames = [];
+                                if (file_exists("users/userlist")) {
+                                    $usernames = file("users/userlist", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+                                }
+                                array_push($usernames, $username);
+                                $usernames = array_slice($usernames, -25);
+                                file_put_contents("users/userlist", implode("\n", $usernames));
+                                touch("users/".$username."/subs");
+                                touch("users/".$username."/blocks");
+                                header("Location: userConfig.php");
+                                exit;
+                            } else {
+                                $passwordMismatch = true;
                             }
-                            array_push($usernames, $username);
-                            $usernames = array_slice($usernames, -25);
-                            file_put_contents("users/userlist", implode("\n", $usernames));
-                            touch("users/".$username."/subs");
-                            touch("users/".$username."/blocks");
-                            header("Location: userConfig.php");
-                            exit;
                         } else {
-                            $passwordMismatch = true;
+                            $userExists = true;
                         }
                     } else {
                         $userExists = true;
