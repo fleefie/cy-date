@@ -17,6 +17,7 @@ if (!is_file("users/".$_SESSION['username']."/user.json")) {
 </head>
 <body>
     <h1><3Beats</h1>
+
     <form>
         <p>Search for a tag or username :
         <input type="text">
