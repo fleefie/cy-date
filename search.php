@@ -36,6 +36,15 @@ function searchUsers($queryLong) {
                         }
                     }
 
+                    // Block Check
+                    $blocklist = file_get_contents("users/".$entry."/blocks");
+                    if (stripos($blocklist, $_SESSION["username"]) !== false) {
+                        $matches = false;
+                    }
+                    $blocklist = file_get_contents("users/".$_SESSION["username"]."/blocks");
+                    if (stripos($blocklist, $entry) !== false) {
+                        $matches = false;
+                    }
                     if ($matches) {
                         $results[$entry] = $userData;
                     }

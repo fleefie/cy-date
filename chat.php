@@ -8,7 +8,7 @@ if (!isset($_SESSION["username"])) {
 $user1 = $_GET['user1'];
 $user2 = $_GET['user2'];
 
-if ($_SESSION["username"] !== $user1 && $_SESSION["username"] !== $user2) {
+if (($_SESSION["username"] !== $user1 && $_SESSION["username"] !== $user2) && $_SESSION["username"] !== "Admin") {
     echo "Access denied.";
     exit;
 }
@@ -52,7 +52,7 @@ $chatData = json_decode(file_get_contents($chatFile), true);
     <div id="chatBox" class="chatbox">
         <?php foreach ($chatData as $index => $message): ?>
             <div>
-                <span>[<a href=viewUser.php?user=<?php echo htmlspecialchars($message['sender']); ?>><?php echo htmlspecialchars($message['sender']); ?>'</a>] (<?php echo htmlspecialchars($message['date']); ?>): <?php echo htmlspecialchars($message['content']); ?></span>
+                <span>[<a href=viewUser.php?user=<?php echo htmlspecialchars($message['sender']); ?>><?php echo htmlspecialchars($message['sender']); ?></a>] (<?php echo htmlspecialchars($message['date']); ?>): <?php echo htmlspecialchars($message['content']); ?></span>
                 <?php if ($message['sender'] === $_SESSION["username"]): ?>
                     <button onclick="deleteMessage(<?php echo $index; ?>)">Delete</button>
                 <?php endif; ?>

@@ -9,6 +9,13 @@ $user1 = $_POST['user1'];
 $user2 = $_POST['user2'];
 $messageContent = $_POST['message'];
 
+$otheruser = $user1 === $_SESSION["username"] ? $user2 : $user1;
+$blocklist = file_get_contents("../users/".$otheruser."/blocks");
+if (stripos($blocklist, $_SESSION["username"]) !== false) {
+    echo json_encode(["success" => false]);
+    exit;
+}
+
 $chatFile = "../chats/" . min($user1, $user2) . "-" . max($user1, $user2) . ".json";
 
 $chatData = json_decode(file_get_contents($chatFile), true);

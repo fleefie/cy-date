@@ -25,15 +25,19 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // This used to be FOUR different PHP scripts. At least I remembered to merge them.
         switch ($type) {
             case "follow":
-                $lines = file($subsfile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-                $lines2 = file($blocksfile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-                if (in_array($target, $lines)) {
-                    $return = array("success" => false, "message" => "User is already subscribed.");
-                } else if (in_array($target, $lines2)) {
-                    $return = array("success" => false, "message" => "User is blocked.");
-                } else {
-                    file_put_contents($subsfile, $target.PHP_EOL, FILE_APPEND);
-                    $return = array("success" => true);
+                // Prevent following if blocked
+                $blocklist = file_get_contents("../users/".$target."/blocks");
+                if (stripos($blocklist, $_SESSION["username"] === false)) {
+                    $lines = file($subsfile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+                    $lines2 = file($blocksfile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+                    if (in_array($target, $lines)) {
+                        $return = array("success" => false, "message" => "User is already subscribed.");
+                    } else if (in_array($target, $lines2)) {
+                        $return = array("success" => false, "message" => "User is blocked.");
+                    } else {
+                        file_put_contents($subsfile, $target.PHP_EOL, FILE_APPEND);
+                        $return = array("success" => true);
+                    }
                 }
                 break;
 
@@ -62,6 +66,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     $lines = array_diff($lines, [$target]);
                     file_put_contents($subsfile, implode(PHP_EOL, $lines) . PHP_EOL);
                 }
+                // Also remove chats
+                unlink("../chats/" . min($username, $target) . "-" . max($username, $target) . ".json");
                 break;
 
             case "unblock":
