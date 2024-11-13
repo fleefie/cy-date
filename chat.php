@@ -59,7 +59,6 @@ $chatData = json_decode(file_get_contents($chatFile), true);
             </div>
         <?php endforeach; ?>
     </div>
-    <textarea autofocus draggable="false" class="messageInput" id="messageInput" placeholder="Type your message here" value=""></textarea>
+    <textarea autofocus draggable="false" class="messageInput" id="messageInput" placeholder="Type your message here"></textarea>
     <button class="messageSend" onclick="sendMessage('<?php echo htmlspecialchars($user1); ?>', '<?php echo htmlspecialchars($user2); ?>')">Send</button>
 </body>
-</html>
